@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>SENSEX PREDICTOR(future predictions)</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints1 = [], dataPoints2 = [],dataPoints3=[],dataPoints4=[],dataPoints5=[],dataPoints6=[]
+  
+  var stockChart = new CanvasJS.StockChart("chartContainer",{ 
+    title: {
+      text: "SENSEX (future predictions)"
+    },   
+    charts: [{
+      data: [{
+        type: "line",
+        dataPoints : dataPoints1
+      }]
+    },{
+      data: [{        
+        dataPoints : dataPoints2
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2022,09, 20),
+        maximum: new Date(2023,09, 20)
+      }
+    }
+  }); 
+  var stockChart1 = new CanvasJS.StockChart("chartContainer2",{ 
+    title: {
+      text: "SENSEX (model performance on previous data)"
+    },   
+    charts: [{
+      data: [{
+        type: "line",
+        dataPoints : dataPoints3
+      }]
+    },{
+      data: [{        
+        dataPoints : dataPoints4
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2022,09, 20),
+        maximum: new Date(2023,09, 20)
+      }
+    }
+  }); 
+  var stockChart2 = new CanvasJS.StockChart("chartContainer3",{ 
+    title: {
+      text: ""
+    },   
+    charts: [{
+      data: [{
+        type: "line",
+        dataPoints : dataPoints5
+      }]
+    },{
+      data: [{        
+        dataPoints : dataPoints6
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2022,09, 20),
+        maximum: new Date(2023,09, 20)
+      }
+    }
+  }); 
+  
+  $.getJSON("https://raw.githubusercontent.com/mainak15071993/SENSEX_Forecasting/main/Prediction.json", function(data) {  
+
+
+    for(var i = 0; i < data.length; i++){
+      dataPoints1.push({x: new Date(data[i].ds), y: Number(data[i].yhat)});
+
+      dataPoints2.push({x: new Date(data[i].ds), y: Number(data[i].yhat)});
+    }
+
+    stockChart.render();
+    
+});
+    $.getJSON("https://raw.githubusercontent.com/mainak15071993/SENSEX_Forecasting/main/88-22.json", function(data) {  
+
+ 
+    for(var i = 0; i < data.length; i++){
+    dataPoints3.push({x: new Date(data[i].ds), y: Number(data[i].yhat)});
+  dataPoints4.push({x: new Date(data[i].ds), y: Number(data[i].yhat)});
+    }
+    
+    
+    stockChart1.render();
+  });
+  $.getJSON("https://raw.githubusercontent.com/mainak15071993/SENSEX_Forecasting/main/new_forecast.json", function(data) {  
+
+for(var i = 0; i < data.length; i++){
+dataPoints5.push({x: new Date(data[i].ds), y: Number(data[i].y)});
+dataPoints6.push({x: new Date(data[i].ds), y: Number(data[i].y)});
+}
+
+
+stockChart2.render();
+});
+}
+
+    </script>
+    
+</head>
+
+<body>
+   
+    <div class="container">
+        <div class="row">
+            <div class="col text-light bg-dark" style="margin:20px 0px 20px 0px">
+                <h1 style="padding:20px 0px 20px 0px">MarketPred </h1>
+            </div>
+            
+        </div>
+        <center>
+            <h2> Predicted Data </h2>
+            <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+        </center>
+        
+        <p style="margin: 10% auto 10% auto ;">
+
+        </p>
+        <center>
+            <h2> Predicted Data </h2>
+        
+        <div id="chartContainer2" style="height: 450px; width: 100%;"></div>
+        </center>
+        <center>
+        <h4 style="align-items: center;"> Actual Data </h4>
+        <div id="chartContainer3" style="height: 450px; width: 100%;"></div>
+        </center>
+            <div class="col-12" style="font-size:smaller;padding:10px;text-align: right;">
+                <i>The data is, to the best of our knowledge, correct but cannot be guarenteed to be so</i>
+                <br/>
+                <i>This site is for educational and demonstation purposes, only</i>
+           </div>    
+           
+        </div>
+
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</body>
+
+</html>
